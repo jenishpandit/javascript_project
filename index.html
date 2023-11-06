@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ragistration Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+   
+     <div class="container">
+        <div class="header">
+            <h2>RAGISTRATION FORM</h2>
+        </div>
+          <form class="form" id="form">
+            <div class="form-control">
+                <label>Username</label>
+                <input type="text" name="" id="username" placeholder="Enter your fullname" autocomplete="off">
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small>Error Msg</small>
+
+            </div>
+            <div class="form-control">
+                <label>Email</label>
+                <input type="Email" name="" id="email" placeholder="Enter your Email" autocomplete="off">
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small>Error Msg</small>
+
+            </div>
+            <div class="form-control">
+                <label>Phone Number</label>
+                <input type="number" name="" id="phone" placeholder="Enter your Phone Number" autocomplete="off">
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small>Error Msg</small>
+
+            </div>
+            <div class="form-control">
+                <label>Password</label>
+                <input type="text" name="" id="password" placeholder="Enter your Password" autocomplete="off">
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small>Error Msg</small>
+
+            </div>
+            <div class="form-control">
+                <label>Confirm Password</label>
+                <input type="text" name="" id="cpassword" placeholder="Enter your again Password" autocomplete="off">
+                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-exclamation-circle"></i>
+                <small>Error Msg</small>
+
+            </div>
+
+            <input type="submit" value="submit" class="btn" name="">
+            <h3>Click To Here<a href="login.html">login page</a></h3>
+          </form>
+                
+     </div>
+
+     
+
+    <script type="text/javascript">
+
+        const form = document.getElementById('form');
+        const username = document.getElementById('username');
+        const email = document.getElementById('email');
+        const phone = document.getElementById('phone');
+        const password = document.getElementById('password');
+        const cpassword = document.getElementById('cpassword');
+
+        form.addEventListener('submit', (event)=>{
+            event.preventDefault();
+            validate();
+        })
+
+        const validate=()=>{
+        const usernameVal = username.value.trim();
+        const emailVal = email.value.trim();
+        const phoneVal = phone.value.trim();
+        const passwordVal = password.value.trim();
+        const cpasswordVal = cpassword.value.trim();
+
+
+        console.log("usernameVal", usernameVal);
+        console.log("emailVal", emailVal);
+        console.log("phoneVal", phoneVal);
+        console.log("passwordVal", passwordVal);
+        console.log("cpasswordVal", cpasswordVal);
+
+        //validation username
+        if(usernameVal === "") {
+                setErrorMsg(username,'username cannot be blank');
+        }else if(usernameVal.length <=2 ) {
+                setErrorMsg(username,'username min 3 char');
+        }else{
+            setSuccessMsg(username);
+        }
+         
+        //validation email
+        if(emailVal === "") {
+                setErrorMsg(email,'please valid email');
+        }else{
+            setSuccessMsg(email);
+        }
+
+        //validation phone
+
+        if(phoneVal === "") {
+                setErrorMsg(phone,'phone cannot be blank');
+        }else if(phoneVal.length !=10 ) {
+                setErrorMsg(phone,'phone min 10 char');
+        }else{
+            setSuccessMsg(phone);
+        }
+
+        // validation password 
+        if(passwordVal === "") {
+                setErrorMsg(password,'password cannot be blank');
+        }else if(passwordVal.length <=5 ) {
+                setErrorMsg(password,'password min 6 char');
+        }else{
+            setSuccessMsg(password);
+        }
+
+        // validation cpassword 
+        if(cpasswordVal === "") {
+                setErrorMsg(cpassword,' confirm password cannot be blank');
+        }else if(passwordVal != cpasswordVal) {
+                setErrorMsg(cpassword,"password cannot match");
+        }else{
+            setSuccessMsg(cpassword);
+        }
+
+        function setErrorMsg(input, errormsgs){
+            const formControl = input.parentElement;
+            console.log();
+            const small = formControl.querySelectorAll('small');
+            formControl.className="form-control error";
+            small.innerText = errormsgs;
+        }
+
+        function setSuccessMsg(input){
+            const formControl = input.parentElement;
+            const small = formControl.querySelectorAll('small');
+            formControl.className="form-control success";
+            small.innerText = "";
+        }
+
+        let user_records=new Array();
+        user_records=JSON.parse(localStorage.getItem("users"))?JSON.parse(localStorage.getItem("users")):[]
+        if(user_records.some((v)=>{return v.email === emailVal}))
+        {
+            alert("Duplicate value not Allowed");
+        }
+        else{
+
+            user_records.push({
+            "username":usernameVal,
+            "email":emailVal,
+            "phone":phoneVal,
+            "password":passwordVal,
+            "cpassword":cpasswordVal
+        })
+
+        localStorage.setItem("users",JSON.stringify(user_records));
+        
+
+        }
+       
+   
+
+       
+    }
+    </script>
+      
+
+
+</body>
+</html>
